@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>پنل مدیریت یوتاب | UTub Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            color: white; font-family: 'Segoe UI', Tahoma, sans-serif;
+            min-height: 100vh; display: flex; align-items: center;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        .form-control {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 12px;
+            padding: 12px;
+        }
+        .form-control:focus {
+            background: rgba(0,0,0,0.3);
+            border-color: #38bdf8;
+            color: white;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+        }
+        .btn-generate {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            border: none; border-radius: 12px;
+            padding: 15px; font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-generate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.4);
+        }
+        .result-box {
+            display: none;
+            margin-top: 30px;
+            border: 1px dashed #38bdf8;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(56, 189, 248, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 glass-panel text-center">
+            <h2 class="mb-4">ساخت لینک هوشمند <span style="color: #38bdf8;">UTub</span></h2>
+            <p class="text-muted mb-4">لینک فایل خود را به یک آهنربای سابسکرایبر تبدیل کنید!</p>
+            
+            <div class="mb-3 text-end">
+                <label class="form-label">آدرس کانال یوتیوب شما:</label>
+                <input type="url" class="form-control" placeholder="https://youtube.com/@YourChannel">
+            </div>
+
+            <div class="mb-4 text-end">
+                <label class="form-label">لینک مستقیم فایل (مدیافایر، تلگرام و...):</label>
+                <input type="url" class="form-control" placeholder="https://mediafire.com/file/...">
+            </div>
+
+            <button class="btn btn-generate w-100" onclick="generateLink()">تولید لینک قفل‌شده</button>
+
+            <div id="result" class="result-box">
+                <p class="mb-2">لینک اختصاصی شما آماده شد:</p>
+                <code id="final-link" style="color: #38bdf8;">https://sepehrvo12-alt.github.io/utub/dl?id=7823</code>
+                <button class="btn btn-sm btn-outline-info mt-2 d-block mx-auto">کپی لینک</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function generateLink() {
+        // فعلاً نمایشی؛ در فاز بعد منطقش رو می‌نویسیم
+        document.getElementById('result').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
