@@ -2,42 +2,87 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تایید دانلود | UTub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأیید سابسکرایب | UTub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <style>
-        body { background: #0f172a; color: white; text-align: center; padding-top: 50px; }
-        .lock-box { background: #1e293b; padding: 40px; border-radius: 20px; border: 1px solid #38bdf8; display: inline-block; }
-        .btn-sub { background: #ff0000; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-weight: bold; margin-bottom: 20px; text-decoration: none; display: inline-block; }
-        .btn-dl { background: #10b981; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-weight: bold; display: none; text-decoration: none; }
+        body {
+            background: #0f172a; color: white; font-family: Tahoma, sans-serif;
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+        }
+        .dl-card {
+            background: rgba(30, 41, 59, 0.7); border: 1px solid #38bdf8;
+            padding: 40px; border-radius: 25px; backdrop-filter: blur(10px);
+            max-width: 450px; width: 90%; text-align: center;
+        }
+        .btn-action {
+            width: 100%; padding: 15px; border-radius: 12px; font-weight: bold;
+            text-decoration: none; display: block; transition: 0.3s; margin-top: 15px;
+        }
+        .btn-sub { background: #ef4444; color: white; }
+        .btn-sub:hover { background: #dc2626; transform: scale(1.02); color: white; }
+        .btn-download { background: #10b981; color: white; display: none; }
+        #timer { color: #38bdf8; font-size: 0.9rem; margin-top: 10px; display: none; }
+        .step { font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
-    <div class="lock-box shadow-lg">
-        <h2 class="mb-4">🔒 لینک قفل است!</h2>
-        <p class="mb-4">برای باز شدن لینک دانلود، ابتدا باید کانال یوتیوب را سابسکرایب کنید.</p>
-        
-        <a href="#" id="yt-link" target="_blank" class="btn-sub" onclick="unlock()">۱. سابسکرایب کانال</a>
-        <br>
-        <a href="#" id="dl-link" class="btn-dl">۲. دانلود فایل (آزاد شد)</a>
+<div class="dl-card shadow-lg">
+    <h3 class="mb-4">🔒 محتوای قفل شده</h3>
+    <p class="mb-4" style="font-size: 0.95rem;">برای دسترسی به لینک دانلود، باید از کانال حمایت کنید.</p>
+
+    <div class="text-end">
+        <div class="step">مرحله اول:</div>
+        <a href="#" id="subBtn" target="_blank" class="btn-action btn-sub" onclick="startVerification()">سابسکرایب کانال یوتیوب</a>
+        <div id="timer">لطفاً <span id="seconds">10</span> ثانیه در کانال بمانید...</div>
     </div>
 
-    <script>
-        // خواندن اطلاعات از آدرس سایت
-        const urlParams = new URLSearchParams(window.location.search);
-        const data = JSON.parse(atob(urlParams.get('data')));
-        
-        document.getElementById('yt-link').href = data.yt;
-        document.getElementById('dl-link').href = data.file;
+    <div class="text-end mt-4">
+        <div class="step" id="step2-text" style="opacity: 0.5;">مرحله دوم:</div>
+        <a href="#" id="dlBtn" class="btn-action btn-download">دریافت فایل نهایی</a>
+    </div>
+</div>
 
-        function unlock() {
-            alert("در حال بررسی وضعیت سابسکرایب... (چند لحظه صبر کنید)");
-            setTimeout(() => {
-                document.getElementById('dl-link').style.display = 'inline-block';
-                document.getElementById('yt-link').innerText = "✅ سابسکرایب تایید شد";
-                document.getElementById('yt-link').style.opacity = "0.5";
-            }, 3000); // ۳ ثانیه تاخیر برای حس واقعی بودن
+<script>
+    // رمزگشایی اطلاعات از آدرس سایت
+    const urlParams = new URLSearchParams(window.location.search);
+    const encodedData = urlParams.get('id');
+    
+    if (encodedData) {
+        try {
+            const decodedData = JSON.parse(decodeURIComponent(escape(atob(encodedData))));
+            document.getElementById('subBtn').href = decodedData.yt;
+            document.getElementById('dlBtn').href = decodedData.file;
+        } catch (e) {
+            alert("خطا در خواندن لینک!");
         }
-    </script>
+    }
+
+    function startVerification() {
+        const timerDiv = document.getElementById('timer');
+        const secondsSpan = document.getElementById('seconds');
+        const dlBtn = document.getElementById('dlBtn');
+        const step2 = document.getElementById('step2-text');
+        
+        timerDiv.style.display = 'block';
+        let timeLeft = 8; // مدت زمان انتظار (ثانیه)
+
+        const interval = setInterval(() => {
+            timeLeft--;
+            secondsSpan.innerText = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                timerDiv.innerText = "✅ تایید شد! حالا می‌توانید دانلود کنید.";
+                dlBtn.style.display = 'block';
+                step2.style.opacity = "1";
+                document.getElementById('subBtn').style.opacity = "0.5";
+                document.getElementById('subBtn').innerText = "انجام شد";
+            }
+        }, 1000);
+    }
+</script>
+
 </body>
 </html>
